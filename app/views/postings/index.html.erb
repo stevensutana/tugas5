@@ -1,0 +1,13 @@
+<% if @postings.length == 0 %>
+    <h2>No data found.</h2>
+<% else %>
+    <%= link_to "Import from XLSX", posting_import_path, :class => "btn btn-primary" %>
+    <% @postings.each do |posting| %>
+        <% if posting %>
+            <h2><%= link_to posting.title, posting_path(posting) %></h2>
+            <small><%= posting.comments.length %> comment(s)</small>
+            <div><%= posting.content.html_safe %></div>
+            <hr>
+        <% end %>
+    <% end %>
+<% end %>

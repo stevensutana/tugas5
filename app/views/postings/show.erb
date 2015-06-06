@@ -1,0 +1,45 @@
+<%= link_to "Export to XLSX", export_path(@posting, :format => "xlsx"), :class => "btn btn-primary" %>
+<h1><%= @posting.title %></h1>
+<small><%= @posting.comments.length %> comment(s) | <%= link_to 'Edit', edit_posting_path(@posting) %> | <%= link_to 'Delete', posting_path(@posting), :method => :delete, :data => {confirm: "Are you sure want to delete?"} %></small>
+<div><%= @posting.content.html_safe %></div>
+<hr>
+<h2>Comments</h2>
+<% if @posting.comments.length == 0 %>
+    There is no comment.
+<% else %>
+    <% @posting.comments.each do |comment| %>
+        <h4><%= comment.title %></h4>
+        <div class="comment">
+            <%= comment.content %><br><br>
+        </div>
+    <% end %>
+<% end %>
+
+<% if @posting.errors.any? %>
+    <div class="alert alert-danger">
+        <ul>
+            <% @article.errors.full_message.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+        </ul>
+    </div>
+<% end %>
+<br><br>
+<div class="row">
+    <div class="col-lg-5">
+        <%= form_for @comment do |f| %>
+            <div class="form-group">
+                <%= f.label :title %>
+                <%= f.text_field :title, :class => "form-control" %>
+            </div>
+            <div class="form-group">
+                <%= f.label :content %>
+                <%= f.text_area :content, :class => "form-control", :rows => 8 %>
+            </div>
+            <%= f.hidden_field :posting_id, :value => @posting.id %>
+            <div class="form-group">
+                <%= f.submit "Submit", :class => "btn btn-primary" %>
+            </div>
+        <% end %>
+    </div>
+</div>
